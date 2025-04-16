@@ -27,7 +27,7 @@ import Data.Csv (FromNamedRecord (..), (.:))
 import GHC.Conc (ensureIOManagerIsRunning)
 import GHC.Generics (Generic)
 import Helpers
-  ( getMaybeList,
+  ( getTheListFromMaybeList,
     isNonEmpty,
     readRawFile,
     remove2ndElement,
@@ -164,7 +164,7 @@ readRawHeroBtls = do
   let validRecords = filter checkHeroBattle $ map (splitString ',') nonEmptyLines
 
   -- let createHeroBtlsObjects = map (toHeroBtlIO) validRecords
-  let final = rmdups $ map (getMaybeList . remove2ndElement) validRecords
+  let final = rmdups $ map (getTheListFromMaybeList . remove2ndElement) validRecords
 
   print (map toHeroBtlIO final)
 

@@ -6,4 +6,5 @@
 
 ## 0.1.0.1 -- 2025-04-16
 * Change the main function to give a set of choices with what to do. 
-
+* Move all helping functions to helpers and make tests for all of them
+* 

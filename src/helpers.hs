@@ -20,7 +20,7 @@ module Helpers
     safeReadInt,
     isNonEmpty,
     rmdups,
-    getMaybeList,
+    getTheListFromMaybeList,
   )
 where
 
@@ -33,7 +33,7 @@ import Text.Read
 -- | Date as an integer in the format YYYYMMDD
 type IntDate = Int
 
--- | Find the indexed value from an array [(a,b)] where the index is a
+-- | Finds the indexed value from an array [(a,b)] where the index is a
 idx :: (Eq a) => a -> [(a, b)] -> Maybe b
 idx = lookup
 
@@ -54,7 +54,7 @@ allMonths =
     ("12", "Dec")
   ]
 
--- | Get the 3letter month out of month part of IntDate YYYYMMDD
+-- | Returns the 3letter month out of month part of IntDate YYYYMMDD
 getMonth :: String -> [(String, String)] -> String
 getMonth m = fromMaybe "???" . lookup m
 
@@ -80,19 +80,22 @@ splitString delim = map trim . foldr step [""]
 trim :: String -> String
 trim = T.unpack . T.strip . T.pack
 
+-- | Removes the 2nd element of a List (if there is one) and return Just List or Nothing
 remove2ndElement :: (Eq a) => [a] -> Maybe [a]
 remove2ndElement (x : _ : xs) = Just (x : xs)
 remove2ndElement _ = Nothing
 
+-- | Removes all quotes from the start and the end of the string
 removeQuotes :: String -> String
 removeQuotes = dropWhile (== '"') . reverse . dropWhile (== '"') . reverse
 
--- | opens file "filepath" and return an array of all guilds data. file is delimeted with ch character
+-- | Opens file "filepath" and return an List of all guilds data. file is delimeted with ch character
 readRawFile :: FilePath -> Char -> IO [[String]]
 readRawFile filepath ch = do
   contents <- readFile filepath
   return (map (splitString ch) $ filter (/= []) $ lines contents)
 
+-- | Returnw the current IntDate from the current Time
 getCurrentTimeToIntDate :: IO Int
 getCurrentTimeToIntDate = do
   currentTime <- getCurrentTime
@@ -100,18 +103,20 @@ getCurrentTimeToIntDate = do
   let formattedDate = formatTime defaultTimeLocale "%Y%m%d" currentDate
   return (read formattedDate :: Int)
 
+-- | Removes duplicates of a List
 rmdups :: (Eq a) => [a] -> [a]
 rmdups [] = []
 rmdups (x : xs) = x : filter (/= x) (rmdups xs)
 
--- | safe Parse Int
+-- | Returns the Just Int from read x :: Int 
 safeReadInt :: String -> Maybe Int
 safeReadInt = readMaybe
 
+-- | Checks if a list is nont Empty
 isNonEmpty :: [a] -> Bool
 isNonEmpty = not . null
 
-getMaybeList :: Maybe [a] -> [a]
-getMaybeList x = case x of
+getTheListFromMaybeList :: Maybe [a] -> [a]
+getTheListFromMaybeList x = case x of
   Nothing -> []
   Just y -> y
