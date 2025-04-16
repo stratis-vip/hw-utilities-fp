@@ -1,0 +1,109 @@
+cabal-version:      3.0
+
+name:               hw
+
+version:            0.1.0.1
+
+
+license:            BSD-3-Clause
+
+-- The file containing the license text.
+license-file:       LICENSE
+
+-- The package author(s).
+author:             stratis-vip
+
+-- An email address to which users can send suggestions, bug reports, and patches.
+maintainer:         stratis.vip@gmail.com
+
+-- A copyright notice.
+-- copyright:
+build-type:         Simple
+
+-- Extra doc files to be distributed with the package, such as a CHANGELOG or a README.
+extra-doc-files:    CHANGELOG.md
+
+-- Extra source files to be distributed with the package, such as examples, or a tutorial module.
+-- extra-source-files:
+
+source-repository-package
+    type: git
+    branch: main
+    location: https://github.com/stratis-vip/hw-utilities-fp.git
+
+common warnings
+--    ghc-options: -Wall
+
+library
+    -- Import common warning flags.
+    import:           warnings
+
+    -- Modules exported by the library.
+    exposed-modules:  MyLib
+
+    -- Modules included in this library but not exported.
+
+    other-modules:  HwData.Values, Helpers, MyJson, Types.Guild, Types.Battle, Typesold
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+
+    -- Other library packages from which modules are imported.
+    build-depends:    base , text, aeson, bytestring, time
+
+    -- Directories containing source files.
+    hs-source-dirs:   src
+
+    -- Base language which the package is written in.
+    default-language: Haskell2010
+
+executable hw
+    -- Import common warning flags.
+    import:           warnings
+
+    -- .hs or .lhs file containing the Main module.
+    main-is:          Main.hs
+
+    -- Modules included in this executable, other than Main.
+    other-modules: MyLib , Typesold ,Helpers, MyJson, Types.Guild,  Types.Battle
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+
+    -- Other library packages from which modules are imported.
+    build-depends:
+        base ,
+        hw, text, aeson, bytestring, time
+
+    -- Directories containing source files.
+    hs-source-dirs:   app, src
+
+    -- Base language which the package is written in.
+    default-language: Haskell2010
+
+test-suite hw-test
+    -- Import common warning flags.
+    import:           warnings
+
+    -- Base language which the package is written in.
+    default-language: Haskell2010
+
+    -- Modules included in this executable, other than Main.
+    -- other-modules:
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+
+    -- The interface type and version of the test suite.
+    type:             exitcode-stdio-1.0
+
+    -- Directories containing source files.
+    hs-source-dirs:   test
+
+    -- The entrypoint to the test suite.
+    main-is:          Main.hs
+
+    -- Test dependencies.
+    build-depends:
+        base ^>=4.20.0.0,
+        hw
