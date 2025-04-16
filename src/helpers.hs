@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Replace case with fromMaybe" #-}
 -- |
 -- Module      : Helpers
 -- Description : Every single utility finction to help the program
@@ -108,7 +110,7 @@ rmdups :: (Eq a) => [a] -> [a]
 rmdups [] = []
 rmdups (x : xs) = x : filter (/= x) (rmdups xs)
 
--- | Returns the Just Int from read x :: Int 
+-- | Returns the Just Int from read x :: Int
 safeReadInt :: String -> Maybe Int
 safeReadInt = readMaybe
 
@@ -117,6 +119,6 @@ isNonEmpty :: [a] -> Bool
 isNonEmpty = not . null
 
 getTheListFromMaybeList :: Maybe [a] -> [a]
-getTheListFromMaybeList x = case x of
+getTheListFromMaybeList x = case x of -- HLINT ignore
   Nothing -> []
   Just y -> y

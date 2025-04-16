@@ -1,5 +1,8 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use isJust" #-}
+{-# HLINT ignore "Hoist not" #-}
 
 -- |
 -- Module      : Types.Battle
@@ -22,7 +25,6 @@ module Types.Battle
 where
 
 import Data.Aeson (FromJSON, ToJSON (toEncoding), defaultOptions, genericToEncoding)
-import Data.Bits (Bits (xor))
 import Data.Csv (FromNamedRecord (..), (.:))
 import GHC.Conc (ensureIOManagerIsRunning)
 import GHC.Generics (Generic)
@@ -159,7 +161,7 @@ readHeroBtls filepath = do
 readRawHeroBtls :: IO ()
 readRawHeroBtls = do
   contents <- readFile "src/data/athHerosTwo.csv"
-  let nonEmptyLines = (lines contents)
+  let nonEmptyLines = lines contents
 
   let validRecords = filter checkHeroBattle $ map (splitString ',') nonEmptyLines
 
