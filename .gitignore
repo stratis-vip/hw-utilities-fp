@@ -1,0 +1,28 @@
+# Cabal-generated files
+dist/
+dist-newstyle/
+cabal.project.local
+cabal.project.local.lock
+
+# Build artifacts
+*.o
+*.hi
+*.dyn_o
+*.dyn_hi
+
+# Editor-specific files
+*.swp     # Vim swap files
+.idea/    # JetBrains IDE settings
+.vscode/  # Visual Studio Code workspace settings
+
+# OS-specific files
+.DS_Store  # MacOS system file
+Thumbs.db  # Windows Explorer cache file
+
+# Haskell Package Files
+*.haddock  # Haddock documentation artifacts
+*.hp       # Heap profiling files
+*.prof     # Profiling reports
+
+# Git-specific ignore
+.git/hooks/
