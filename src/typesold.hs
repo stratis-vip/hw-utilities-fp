@@ -1,5 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
-
 -- |
 -- Module      : Types
 -- Description : Declaration of classes and types for hero-wars utilities
@@ -12,7 +10,7 @@
 --
 -- Original date: 5 Apr 2025
 module Typesold
-  ( Pet (..),
+  ( 
     Titan (..),
     HasNameAndId (..),
   )
@@ -23,23 +21,15 @@ import Types.Assorted (HasNameAndId (..), ID, PHTName)
 
 -- import Types.Guild (League (..))
 
-type Lineup = (String, String, String, String, String)
--- ^ alias of a five string tuple to keeps the names of heros, pets, titans
-
 -- ^ alias of Pet - Hero - Titan triple who keeps, shortname, name, id
 
-instance HasNameAndId Pet where
-  getName (Pet (_, x, _)) = x
-  getShortName (Pet (x, _, _)) = x
-  getId (Pet (_, _, x)) = x
 
 instance HasNameAndId Titan where
   getName (Titan (_, x, _)) = x
   getShortName (Titan (x, _, _)) = x
   getId (Titan (_, _, x)) = x
 
-{- Pets  -}
-data Pet = Pet {pDtls :: PHTName} deriving (Show)
+
 
 data Titan = Titan {titanDtls :: PHTName} deriving (Show)
 

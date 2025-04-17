@@ -11,4 +11,7 @@
 
 ## 0.1.1.2 -- 2025-04-17
 * Add a Types.Hero module
-. Add a Types.Assorted module to keep all types that are not important for a special module, like IntDate etc
+* Add a Types.Assorted module to keep all types that are not important for a special module, like IntDate etc.
+
+## 0.1.1.3 -- 2025-04-17
+* Add a Types.Pet module to keep pet related structure and functions 

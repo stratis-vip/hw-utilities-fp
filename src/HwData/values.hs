@@ -12,7 +12,8 @@ module HwData.Values (allPets, allHeros, allTitans) where
 
 import Types.Assorted (ID (ID))
 import Types.Hero (Hero (..))
-import Typesold (Pet (..), Titan (..))
+import Types.Pet (Pet (..))
+import Typesold (Titan (..))
 
 -- | Data of pets in game
 allPets :: [Pet]
