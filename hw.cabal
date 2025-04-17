@@ -1,6 +1,6 @@
 cabal-version:      3.0
 name:               hw
-version:            0.1.1.2
+version:            0.1.1.3
 license:            BSD-3-Clause
 
 -- The file containing the license text.
@@ -35,7 +35,7 @@ library
     -- Modules included in this library but not exported.
 
     other-modules:  HwData.Values, Helpers, MyJson, Types.Guild, Types.Battle, Types.Hero, Types.Assorted, 
-                    Typesold
+                    Typesold, Types.Member
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -57,7 +57,8 @@ executable hw
     main-is:          mainApp.hs
 
     -- Modules included in this executable, other than Main.
-    other-modules: MyLib , Typesold ,Helpers, MyJson, Types.Guild,  Types.Battle, Types.Hero, Types.Assorted
+    other-modules: MyLib , Typesold ,Helpers, MyJson, Types.Guild,  Types.Battle, Types.Hero, 
+                    Types.Assorted, Types.Member
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
