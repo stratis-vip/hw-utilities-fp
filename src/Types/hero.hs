@@ -1,4 +1,6 @@
-{-# LANGUAGE DeriveGeneric #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
+{-# HLINT ignore "Use newtype instead of data" #-}
 
 -- |
 -- Module      : Types.Hero
@@ -15,4 +17,4 @@ module Types.Hero (Hero (..)) where
 import GHC.Generics (Generic)
 import Types.Assorted (PHTName)
 
-data Hero = Hero {heroDtls :: PHTName} deriving (Show)
+newtype Hero = Hero {heroDtls :: PHTName} deriving (Show)
