@@ -31,9 +31,8 @@ import qualified Data.Text as T
 import Data.Time (getCurrentTime, utctDay)
 import Data.Time.Format (defaultTimeLocale, formatTime)
 import Text.Read
+import Types.Assorted (IntDate)
 
--- | Date as an integer in the format YYYYMMDD
-type IntDate = Int
 
 -- | Finds the indexed value from an array [(a,b)] where the index is a
 idx :: (Eq a) => a -> [(a, b)] -> Maybe b

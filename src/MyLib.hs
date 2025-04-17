@@ -1,16 +1,19 @@
--- Enable the DeriveGeneric extension
--- {-# LANGUAGE DeriveGeneric #-}
-
--- {-# LANGUAGE InstanceSigs #-}
--- {-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
 {-# HLINT ignore "Use isJust" #-}
 {-# HLINT ignore "Replace case with fromMaybe" #-}
 {-# HLINT ignore "Use print" #-}
+{-# HLINT ignore "Hoist not" #-}
 
 module MyLib (main3) where
 
-import Helpers (getCurrentTimeToIntDate, remove2ndElement, splitString)
+import Helpers
+  ( getCurrentTimeToIntDate,
+    getTheListFromMaybeList,
+    remove2ndElement,
+    rmdups,
+    splitString,
+  )
 import System.IO (Handle, IOMode (ReadMode), hGetLine, hIsEOF, hSetEncoding, stdout, utf8, withFile)
 import Text.Read (readMaybe)
 import Types.Battle (HeroBattle (..), readRawHeroBtls, toHeroBtlIO, toHeroLineUp, toPetLineUp)
@@ -30,7 +33,7 @@ processLines handle = do
       case remove2ndElement array of
         -- \^ remove the 2nd element, which is the date with hour
         Just xs -> putStrLn $ show xs -- HLINT ignore
-        -- ^ TODO i will spread the line to a HeroBattle record
+        -- TODO i will spread the line to a HeroBattle record
         Nothing -> putStrLn "ERROR"
       processLines handle
 
@@ -44,7 +47,7 @@ safeReadInt = readMaybe
 isNonEmpty :: [a] -> Bool
 isNonEmpty = not . null
 
--- | Check if a string is a valid Lineup (5 space-separated items)
+-- | Check if a string is a valid Lineup (n space-separated items)
 isValidLineup :: Int -> String -> Bool
 isValidLineup n s = length (words s) == n && all (not . null) (words s) -- HLINT ignore
 
@@ -81,18 +84,9 @@ main3 = do
 
   let validRecords = filter checkHeroBattle $ map (splitString ',') nonEmptyLines
 
-  let final = rmdups $ map (retMaybeArray . remove2ndElement) validRecords
+  let final = rmdups $ map (getTheListFromMaybeList . remove2ndElement) validRecords
 
   print final
-
-retMaybeArray :: Maybe [a] -> [a]
-retMaybeArray x = case x of
-  Nothing -> []
-  Just y -> y
-
-rmdups :: (Eq a) => [a] -> [a]
-rmdups [] = []
-rmdups (x : xs) = x : filter (/= x) (rmdups xs)
 
 -- prepareStm :: [a] -> String
 prepareStm x = concat (take 1 semiFinal ++ drop 2 semiFinal)
