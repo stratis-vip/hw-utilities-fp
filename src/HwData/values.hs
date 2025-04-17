@@ -1,126 +1,127 @@
-{- |
-Module      : HwData.Values
-Description : Values of pets, heros, titans
-Copyright   : (c) Stratis Christodoulou 2025
-Maintainer  : stratis.vip@gmail.com
-Stability   : experimental
-
-This module holds all data of the main characters of the game
-
-Original date: 6 Apr 2025
--}
+-- |
+-- Module      : HwData.Values
+-- Description : Values of pets, heros, titans
+-- Copyright   : (c) Stratis Christodoulou 2025
+-- Maintainer  : stratis.vip@gmail.com
+-- Stability   : experimental
+--
+-- This module holds all data of the main characters of the game
+--
+-- Original date: 6 Apr 2025
 module HwData.Values (allPets, allHeros, allTitans) where
 
-import Typesold (Hero (..), Pet (..), Titan (..))
+import Types.Assorted (ID (ID))
+import Types.Hero (Hero (..))
+import Typesold (Pet (..), Titan (..))
 
 -- | Data of pets in game
 allPets :: [Pet]
 allPets =
-  [ Pet ("###", "No Pet", 0)
-  , Pet ("Alb", "Albus", 1)
-  , Pet ("Axe", "Axel", 2)
-  , Pet ("Bis", "Biscuit", 3)
-  , Pet ("Cai", "Cain", 4)
-  , Pet ("Fen", "Fenris", 5)
-  , Pet ("Kho", "Khorus", 6)
-  , Pet ("Mar", "Mara", 7)
-  , Pet ("Mer", "Merlin", 8)
-  , Pet ("Oli", "Oliver", 9)
-  , Pet ("Vex", "Vex", 10)
+  [ Pet ("###", "No Pet", ID 0),
+    Pet ("Alb", "Albus", ID 1),
+    Pet ("Axe", "Axel", ID 2),
+    Pet ("Bis", "Biscuit", ID 3),
+    Pet ("Cai", "Cain", ID 4),
+    Pet ("Fen", "Fenris", ID 5),
+    Pet ("Kho", "Khorus", ID 6),
+    Pet ("Mar", "Mara", ID 7),
+    Pet ("Mer", "Merlin", ID 8),
+    Pet ("Oli", "Oliver", ID 9),
+    Pet ("Vex", "Vex", ID 10)
   ]
 
 -- | Data of Titans in game
 allTitans :: [Titan]
 allTitans =
-  [ Titan ("Amo", "Amon", 18)
-  , Titan ("Ang", "Angus", 9)
-  , Titan ("Ara", "Araji", 8)
-  , Titan ("Ava", "Avalon", 11)
-  , Titan ("Bru", "Brustar", 13)
-  , Titan ("Ede", "Eden", 12)
-  , Titan ("Hyp", "Hyperion", 4)
-  , Titan ("Ign", "Ignis", 7)
-  , Titan ("Iya", "Iyari", 19)
-  , Titan ("Ker", "Keros", 14)
-  , Titan ("Mai", "Mairi", 3)
-  , Titan ("Mol", "Moloch", 5)
-  , Titan ("Mor", "Mort", 15)
-  , Titan ("Nov", "Nova", 2)
-  , Titan ("Rig", "Rigel", 17)
-  , Titan ("Sig", "Sigurd", 1)
-  , Titan ("Sol", "Solaris", 20)
-  , Titan ("Syl", "Sylva", 10)
-  , Titan ("Ten", "Tenebris", 16)
-  , Titan ("Vul", "Vulcan", 6)
+  [ Titan ("Amo", "Amon", ID 18),
+    Titan ("Ang", "Angus", ID 9),
+    Titan ("Ara", "Araji", ID 8),
+    Titan ("Ava", "Avalon", ID 11),
+    Titan ("Bru", "Brustar", ID 13),
+    Titan ("Ede", "Eden", ID 12),
+    Titan ("Hyp", "Hyperion", ID 4),
+    Titan ("Ign", "Ignis", ID 7),
+    Titan ("Iya", "Iyari", ID 19),
+    Titan ("Ker", "Keros", ID 14),
+    Titan ("Mai", "Mairi", ID 3),
+    Titan ("Mol", "Moloch", ID 5),
+    Titan ("Mor", "Mort", ID 15),
+    Titan ("Nov", "Nova", ID 2),
+    Titan ("Rig", "Rigel", ID 17),
+    Titan ("Sig", "Sigurd", ID 1),
+    Titan ("Sol", "Solaris", ID 20),
+    Titan ("Syl", "Sylva", ID 10),
+    Titan ("Ten", "Tenebris", ID 16),
+    Titan ("Vul", "Vulcan", ID 6)
   ]
 
 -- | Data of Heros in game
 allHeros :: [Hero]
 allHeros =
-  [ Hero ("Aid", "Aidan", 58)
-  , Hero ("Alv", "Alvanor", 53)
-  , Hero ("Ami", "Amira", 56)
-  , Hero ("And", "Andvari", 47)
-  , Hero ("Ara", "Arachne", 12)
-  , Hero ("Art", "Artemis", 20)
-  , Hero ("Ast", "Astaroth", 4)
-  , Hero ("A&L", "Astrid and Lucas", 44)
-  , Hero ("Aug", "Augustus", 64)
-  , Hero ("Aur", "Aurora", 1)
-  , Hero ("Cel", "Celeste", 43)
-  , Hero ("Cha", "Chabba", 11)
-  , Hero ("Cle", "Cleaver", 24)
-  , Hero ("Krn", "Cornelius", 30)
-  , Hero ("Krv", "Corvus", 50)
-  , Hero ("Dan", "Dante", 16)
-  , Hero ("Dd", "Daredevil", 8)
-  , Hero ("Drk", "Dark Star", 19)
-  , Hero ("Dor", "Dorian", 29)
-  , Hero ("Elm", "Elmir", 38)
-  , Hero ("Fac", "Faceless", 10)
-  , Hero ("Faf", "Fafnir", 57)
-  , Hero ("Fox", "Fox", 14)
-  , Hero ("Gal", "Galahad", 2)
-  , Hero ("Gin", "Ginger", 15)
-  , Hero ("Hei", "Heidi", 9)
-  , Hero ("Hel", "Helios", 32)
-  , Hero ("Iri", "Iris", 55)
-  , Hero ("Isa", "Isaac", 52)
-  , Hero ("Ish", "Ishmael", 25)
-  , Hero ("Jet", "Jet", 31)
-  , Hero ("Jhu", "Jhu", 37)
-  , Hero ("Jor", "Jorgen", 35)
-  , Hero ("Jud", "Judge", 18)
-  , Hero ("Jul", "Julius", 61)
-  , Hero ("K'A", "K'arkh", 41)
-  , Hero ("Kai", "Kai", 5)
-  , Hero ("Kay", "Kayla", 59)
-  , Hero ("Kei", "Keira", 3)
-  , Hero ("Kri", "Krista", 34)
-  , Hero ("LaC", "Lara Croft", 63)
-  , Hero ("Lrs", "Lars", 33)
-  , Hero ("Lia", "Lian", 23)
-  , Hero ("Lil", "Lilith", 26)
-  , Hero ("Lut", "Luther", 27)
-  , Hero ("Mrk", "Markus", 21)
-  , Hero ("Mar", "Martha", 46)
-  , Hero ("May", "Maya", 36)
-  , Hero ("Moj", "Mojo", 17)
-  , Hero ("Mor", "Morrigan", 51)
-  , Hero ("Mus", "Mushy and Shroom", 60)
-  , Hero ("Neb", "Nebula", 40)
-  , Hero ("Nin", "Ninja Turtles", 65)
-  , Hero ("Fol", "Folio", 66)
-  , Hero ("Ori", "Orion", 13)
-  , Hero ("Pep", "Peppy", 22)
-  , Hero ("Pho", "Phobos", 6)
-  , Hero ("Pol", "Polaris", 62)
-  , Hero ("Qin", "Qing Mao", 28)
-  , Hero ("Ruf", "Rufus", 42)
-  , Hero ("Sat", "Satori", 45)
-  , Hero ("Seb", "Sebastian", 48)
-  , Hero ("The", "Thea", 7)
-  , Hero ("Tri", "Tristan", 54)
-  , Hero ("Yas", "Yasmine", 49)
-  , Hero ("Zir", "Ziri", 39)
+  [ Hero ("Aid", "Aidan", ID 58),
+    Hero ("Alv", "Alvanor", ID 53),
+    Hero ("Ami", "Amira", ID 56),
+    Hero ("And", "Andvari", ID 47),
+    Hero ("Ara", "Arachne", ID 12),
+    Hero ("Art", "Artemis", ID 20),
+    Hero ("Ast", "Astaroth", ID 4),
+    Hero ("A&L", "Astrid and Lucas", ID 44),
+    Hero ("Aug", "Augustus", ID 64),
+    Hero ("Aur", "Aurora", ID 1),
+    Hero ("Cel", "Celeste", ID 43),
+    Hero ("Cha", "Chabba", ID 11),
+    Hero ("Cle", "Cleaver", ID 24),
+    Hero ("Krn", "Cornelius", ID 30),
+    Hero ("Krv", "Corvus", ID 50),
+    Hero ("Dan", "Dante", ID 16),
+    Hero ("Dd", "Daredevil", ID 8),
+    Hero ("Drk", "Dark Star", ID 19),
+    Hero ("Dor", "Dorian", ID 29),
+    Hero ("Elm", "Elmir", ID 38),
+    Hero ("Fac", "Faceless", ID 10),
+    Hero ("Faf", "Fafnir", ID 57),
+    Hero ("Fox", "Fox", ID 14),
+    Hero ("Gal", "Galahad", ID 2),
+    Hero ("Gin", "Ginger", ID 15),
+    Hero ("Hei", "Heidi", ID 9),
+    Hero ("Hel", "Helios", ID 32),
+    Hero ("Iri", "Iris", ID 55),
+    Hero ("Isa", "Isaac", ID 52),
+    Hero ("Ish", "Ishmael", ID 25),
+    Hero ("Jet", "Jet", ID 31),
+    Hero ("Jhu", "Jhu", ID 37),
+    Hero ("Jor", "Jorgen", ID 35),
+    Hero ("Jud", "Judge", ID 18),
+    Hero ("Jul", "Julius", ID 61),
+    Hero ("K'A", "K'arkh", ID 41),
+    Hero ("Kai", "Kai", ID 5),
+    Hero ("Kay", "Kayla", ID 59),
+    Hero ("Kei", "Keira", ID 3),
+    Hero ("Kri", "Krista", ID 34),
+    Hero ("LaC", "Lara Croft", ID 63),
+    Hero ("Lrs", "Lars", ID 33),
+    Hero ("Lia", "Lian", ID 23),
+    Hero ("Lil", "Lilith", ID 26),
+    Hero ("Lut", "Luther", ID 27),
+    Hero ("Mrk", "Markus", ID 21),
+    Hero ("Mar", "Martha", ID 46),
+    Hero ("May", "Maya", ID 36),
+    Hero ("Moj", "Mojo", ID 17),
+    Hero ("Mor", "Morrigan", ID 51),
+    Hero ("Mus", "Mushy and Shroom", ID 60),
+    Hero ("Neb", "Nebula", ID 40),
+    Hero ("Nin", "Ninja Turtles", ID 65),
+    Hero ("Fol", "Folio", ID 66),
+    Hero ("Ori", "Orion", ID 13),
+    Hero ("Pep", "Peppy", ID 22),
+    Hero ("Pho", "Phobos", ID 6),
+    Hero ("Pol", "Polaris", ID 62),
+    Hero ("Qin", "Qing Mao", ID 28),
+    Hero ("Ruf", "Rufus", ID 42),
+    Hero ("Sat", "Satori", ID 45),
+    Hero ("Seb", "Sebastian", ID 48),
+    Hero ("The", "Thea", ID 7),
+    Hero ("Tri", "Tristan", ID 54),
+    Hero ("Yas", "Yasmine", ID 49),
+    Hero ("Zir", "Ziri", ID 39)
   ]

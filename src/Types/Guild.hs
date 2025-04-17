@@ -20,10 +20,7 @@ import qualified Data.ByteString.Lazy.Char8 as B
 import GHC.Generics (Generic)
 import Helpers (readRawFile, removeQuotes, splitString)
 import MyJson (saveToJson)
-
-type ID = Int
-
-type IntDate = Int
+import Types.Assorted (ID, IntDate)
 
 class HeroWars a where
   getId :: a -> ID
@@ -59,7 +56,7 @@ updateGuild [] _ = []
 -- names are with quotes, so i removing them with removeQuotes
 updateGuild ([idS, name] : xs) lg = Guild id (removeQuotes name) (Just lg) [] : updateGuild xs lg
   where
-    id = read idS :: Int
+    id = read ("ID " ++ idS) :: ID
 
 -- | silver and bronze data files are comma delimeted files with header
 readOthers :: FilePath -> IO [Guild]
@@ -67,14 +64,14 @@ readOthers filepath = do
   rawInit <- readRawFile filepath ','
   let raw = drop 1 rawInit
   -- \^ first row has the headers and need to be dropped
-  let guilds = updateGuild (map (take 2 . drop 1)  raw) Silver
+  let guilds = updateGuild (map (take 2 . drop 1) raw) Silver
   return guilds
 
 -- | gold data file is a tab delimeted file with no headers, so it have his own function
 readGold :: FilePath -> IO [Guild]
 readGold filepath = do
   raw <- readRawFile filepath '\t'
-  let guilds = updateGuild (map (take 2)  raw) Gold
+  let guilds = updateGuild (map (take 2) raw) Gold
   return guilds
 
 -- | This function gets the path of gold silver and bronze data every week and update

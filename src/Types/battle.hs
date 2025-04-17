@@ -1,6 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
 {-# HLINT ignore "Use isJust" #-}
 {-# HLINT ignore "Hoist not" #-}
 
@@ -38,16 +39,7 @@ import Helpers
     splitString,
   )
 import Text.Read (readMaybe)
-
-type IntDate = Int
-
-type ID = Int
-
-type Lineup = (String, String, String, String, String)
--- ^ alias of a five string tuple to keeps the names of heros, pets, titans
-
-type PHTName = (String, String, Int)
--- ^ alias of Pet - Hero - Titan triple who keeps, shortname, name, id (P)et(H)ero(T)itan(Name)
+import Types.Assorted (ID, IntDate, Lineup, PHTName)
 
 -- |
 --     Data keeps a battle with Heros.
@@ -174,8 +166,8 @@ toHeroBtl :: [String] -> Maybe HeroBattle
 toHeroBtl [date, aId, aName, aPower, aLnup, dId, dName, dPower, dLnup, points, aPetLnup, dPetLnup, aGuild, bGuild] =
   Just (HeroBattle bDate bAtt bDef bPoints)
   where
-    bDate = read date :: IntDate
-    bAtt = HrChampionDtl (read aId :: ID) aName (read aGuild :: Int) (read aPower :: Int) (toHeroLineUp (words aLnup)) (toPetLineUp $ clearPwtLnup aPetLnup) (head (words aLnup))
+    bDate = read ("IntDate " ++ date) :: IntDate
+    bAtt = HrChampionDtl (read ("ID " ++ aId) :: ID) aName (read ("ID " ++ aGuild) :: ID) (read aPower :: Int) (toHeroLineUp (words aLnup)) (toPetLineUp $ clearPwtLnup aPetLnup) (head (words aLnup))
     bDef = bAtt
     bPoints = read points :: Int
 toHeroBtl _ = Nothing
@@ -186,9 +178,9 @@ toHeroBtlIO [date, aId, aName, aPower, aLnup, dId, dName, dPower, dLnup, points,
   where
     -- bAtt bDef bPoints)
 
-    bDate = read date :: IntDate
-    bAtt = HrChampionDtl (read aId :: ID) aName (read aGuild :: Int) (read aPower :: Int) (toHeroLineUp (words aLnup)) (toPetLineUp $ clearPwtLnup aPetLnup) (head (words aLnup))
-    bDef = HrChampionDtl (read dId :: ID) dName (read bGuild :: Int) (read dPower :: Int) (toHeroLineUp (words dLnup)) (toPetLineUp $ clearPwtLnup dPetLnup) (head (words dLnup))
+    bDate = read ("IntDate " ++ date) :: IntDate
+    bAtt = HrChampionDtl (read ("ID " ++ aId) :: ID) aName (read ("ID " ++ aGuild) :: ID) (read aPower :: Int) (toHeroLineUp (words aLnup)) (toPetLineUp $ clearPwtLnup aPetLnup) (head (words aLnup))
+    bDef = HrChampionDtl (read ("ID " ++ dId) :: ID) dName (read ("ID " ++ bGuild) :: ID) (read dPower :: Int) (toHeroLineUp (words dLnup)) (toPetLineUp $ clearPwtLnup dPetLnup) (head (words dLnup))
 
     bPoints = read points :: Int
 
