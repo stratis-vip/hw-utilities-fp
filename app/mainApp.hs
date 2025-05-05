@@ -1,4 +1,4 @@
-module Main where
+module Main ( main)where
 
 import Control.Monad (mapM_)
 import qualified Data.ByteString.Lazy as BL
@@ -6,31 +6,36 @@ import Data.Csv (decodeByName)
 import Data.Csv.Incremental (Parser (Done))
 import Data.Int (Int)
 import qualified Data.Vector as V
-import Types.Battle (Rec)
 import MyLib (main3)
+import System.Exit (exitSuccess)
 import Text.Read (readMaybe)
+import Types.Battle (HeroBattle (HeroBattle))
 
 main :: IO ()
 main = do
   choice <- getInputChoice
-  putStrLn $ show choice
-  csvData <- BL.readFile "src/data/athHerosAll.csv"
-  case decodeByName csvData of
-    Left err -> putStrLn $ "Error parsing CSV: " ++ err
-    Right (header, records) -> do
-      putStrLn "Header:"
-      print header
-      let numRecords = V.length (records :: V.Vector Rec)
-      putStrLn $ "\nRecords:" ++ (show numRecords)
-
-      -- mapM_ print records
-      print $ (records V.! 0)
+  case choice of
+    0 -> exitSuccess
+    _ -> do
+      print choice
+      csvData <- BL.readFile "src/data/athHerosAll.csv"
+      case decodeByName csvData of
+        Left err -> putStrLn $ "Error parsing CSV: " ++ err
+        Right (header, records) -> do
+          putStrLn "Header:"
+          print header
+          let numRecords = V.length (records :: V.Vector HeroBattle)
+          putStrLn $ "\nRecords:" ++ show numRecords
+          print (records V.! 0)
 
 getInputChoice :: IO Int
 getInputChoice = do
   putStrLn "\nMake a choice:"
   putStrLn "    1. Check Hero data file"
   putStrLn "    2. Update Leagues (after Sunday)"
+  putStrLn "    3. Get results for Guild war"
+  putStrLn "    4. Find best team for Hero team"
+  putStrLn "    5. Find best team for Titans team"
   putStrLn "    0. Exit"
   choice <- getLine
   case readMaybe choice of
@@ -56,3 +61,5 @@ myReadMaybe x =
   case reads x of
     [(num, "")] -> Just num
     _ -> Nothing
+
+data Export a = Export { date :: Int , type_ :: String  , data_ :: [a]}

@@ -1,9 +1,9 @@
 {-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-
 {-# HLINT ignore "Use isJust" #-}
 {-# HLINT ignore "Hoist not" #-}
+{-# LANGUAGE InstanceSigs #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 
 -- |
 -- Module      : Types.Battle
@@ -21,7 +21,8 @@ module Types.Battle
     toHeroLineUp,
     toPetLineUp,
     toHeroBtlIO,
-    Rec,
+    HrChampionDtl (..),
+    isBattleFair,
   )
 where
 
@@ -39,19 +40,19 @@ import Helpers
     splitString,
   )
 import Text.Read (readMaybe)
-import Types.Assorted (ID, IntDate, Lineup, PHTName)
+import Types.Assorted (ID (ID), IntDate (IntDate), Lineup, PHTName, clearPwtLnup, toHeroLineUp, toPetLineUp)
+import Types.Consts (championsAcceptedPowerGap)
 
--- |
---     Data keeps a battle with Heros.
+-- | Data keeps a battle with Heros.
 data HeroBattle = HeroBattle
   { -- | date of battle in YYYMMDD form, as 'IntDate'
-    bDate :: IntDate,
+    hbDate :: IntDate,
     -- | attacker description as 'HrChampionDtl'
-    bAttacker :: HrChampionDtl,
+    hbAttacker :: HrChampionDtl,
     -- | defender description as 'HrChampionDtl'
-    bDefender :: HrChampionDtl,
+    hbDefender :: HrChampionDtl,
     -- | point of the battle
-    bPoints :: Int
+    hbPoints :: Int
   }
   deriving (Show, Generic)
 
@@ -71,6 +72,13 @@ data HrChampionDtl = HrChampionDtl
   }
   deriving (Show, Generic)
 
+instance Eq HrChampionDtl where
+  (==) (HrChampionDtl {power = p}) (HrChampionDtl {power = p1}) = p == p1
+  (/=) (HrChampionDtl {power = p}) (HrChampionDtl {power = p1}) = p /= p1
+
+instance Ord HrChampionDtl where
+  compare (HrChampionDtl {power = p}) (HrChampionDtl {power = p1}) = compare p p1
+
 instance ToJSON HeroBattle where
   toEncoding = genericToEncoding defaultOptions
 
@@ -81,27 +89,7 @@ instance ToJSON HrChampionDtl where
 
 instance FromJSON HrChampionDtl
 
-data Rec = Rec
-  { date :: Int,
-    points :: Int,
-    attID :: Int,
-    attName :: String,
-    attGuild :: Int,
-    attPower :: Int,
-    attTeam :: [String],
-    attPet :: String,
-    attPetTeam :: [String],
-    defID :: Int,
-    defName :: String,
-    defGuild :: Int,
-    defPower :: Int,
-    defTeam :: [String],
-    defPet :: String,
-    defPetTeam :: [String]
-  }
-  deriving (Show, Generic)
-
-instance FromNamedRecord Rec where
+instance FromNamedRecord HeroBattle where
   parseNamedRecord r = do
     dateVal <- r .: "date 8"
     points <- r .: "points"
@@ -120,31 +108,34 @@ instance FromNamedRecord Rec where
     defTeamVal <- r .: "team"
     defTeamPetVal <- r .: "defender patronage"
 
+    let date = IntDate dateVal
     let attTeamList = drop 1 $ words attTeamVal
     let attPetList = map (takeWhile (/= '(')) $ words attTeamPetVal
     let attPet = take 3 attTeamVal
     let defTeamList = init $ words defTeamVal
     let defPet = last $ words defTeamVal
     let defPetList = map (takeWhile (/= '(')) $ words defTeamPetVal
+    let attacker =
+          HrChampionDtl
+            (ID attIDVal)
+            attName
+            (ID attGuildId)
+            attPowerVal
+            (toHeroLineUp attTeamList)
+            (toPetLineUp attPetList)
+            attPet
+    let defender =
+          HrChampionDtl
+            (ID defIDVal)
+            defName
+            (ID defGuildId)
+            defPowerVal
+            (toHeroLineUp defTeamList)
+            (toPetLineUp defPetList)
+            defPet
 
     return $
-      Rec
-        dateVal
-        points
-        attIDVal
-        attName
-        attGuildId
-        attPowerVal
-        attTeamList
-        attPet
-        attPetList
-        defIDVal
-        defName
-        defGuildId
-        defPowerVal
-        defTeamList
-        defPet
-        defPetList
+      HeroBattle date attacker defender points
 
 {-readHeroBtls :: FilePath -> IO [HeroBattle]
 readHeroBtls filepath = do
@@ -184,17 +175,6 @@ toHeroBtlIO [date, aId, aName, aPower, aLnup, dId, dName, dPower, dLnup, points,
 
     bPoints = read points :: Int
 
-clearPwtLnup :: String -> [String]
-clearPwtLnup x = map (takeWhile (/= '(')) $ words x
-
-toHeroLineUp :: [String] -> Lineup
-toHeroLineUp (_ : a : b : c : d : e : _) = (a, b, c, d, e)
-toHeroLineUp _ = ("###", "###", "###", "###", "###")
-
-toPetLineUp :: [String] -> Lineup
-toPetLineUp (a : b : c : d : e : _) = (a, b, c, d, e)
-toPetLineUp _ = ("###", "###", "###", "###", "###")
-
 -- Define expected structure for HeroBattle/
 checkHeroBattle :: [String] -> Bool
 checkHeroBattle xs
@@ -212,7 +192,7 @@ checkHeroBattle xs
 isValidLineup :: Int -> String -> Bool
 isValidLineup n s = length (words s) == n && all (not . null) (words s)
 
--- Define expected structure for HeroDetail
+-- | Define expected structure for HeroDetail
 checkHeroDetail :: [String] -> Bool
 checkHeroDetail [heroId, power, name, lineup, guild] =
   maybe False (const True) (safeReadInt heroId)
@@ -222,3 +202,19 @@ checkHeroDetail [heroId, power, name, lineup, guild] =
     && isValidLineup 6 lineup -- pet :: String
     -- hLnup :: Lineup
 checkHeroDetail _ = False
+
+class HasChampions a where
+  getAttPower :: a -> Int
+  getDefPower :: a -> Int
+
+instance HasChampions HeroBattle where
+  getAttPower :: HeroBattle -> Int
+  getAttPower x = power (hbAttacker x)
+  getDefPower :: HeroBattle -> Int
+  getDefPower x = power (hbDefender x)
+
+isBattleFair :: (HasChampions a) => a -> Bool
+isBattleFair x = def >= att || abs (att - def) <= championsAcceptedPowerGap
+  where
+    att = getAttPower x
+    def = getDefPower x

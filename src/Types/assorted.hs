@@ -1,11 +1,15 @@
 {-# LANGUAGE DeriveGeneric #-}
 
 module Types.Assorted
-  ( IntDate (IntDate),
-    ID (ID),
+  ( IntDate (..),
+    ID (..),
     Lineup,
     PHTName,
     HasNameAndId (..),
+    toHeroLineUp,
+    toPetLineUp,
+    clearPwtLnup,
+    Export (..)
   )
 where
 
@@ -36,6 +40,20 @@ instance FromJSON ID
 type Lineup = (String, String, String, String, String)
 -- ^ alias of a five string tuple to keeps the names of heros, pets, titans
 
+-- | return a Lineup object with 5 heros
+toHeroLineUp :: [String] -> Lineup
+toHeroLineUp [a, b, c, d, e] = (a, b, c, d, e)
+toHeroLineUp _ = ("###", "###", "###", "###", "###")
+
+-- | return a Lineup object with 5 pets
+toPetLineUp :: [String] -> Lineup
+toPetLineUp [a, b, c, d, e] = (a, b, c, d, e)
+toPetLineUp _ = ("###", "###", "###", "###", "###")
+
+-- | clear the "(xxxxx) part from the pets"
+clearPwtLnup :: String -> [String]
+clearPwtLnup x = map (takeWhile (/= '(')) $ words x
+
 type PHTName = (String, String, ID)
 -- ^ alias of Pet - Hero - Titan triple who keeps, shortname, name, id (P)et(H)ero(T)itan(Name)
 
@@ -43,3 +61,9 @@ instance ToJSON IntDate where
   toEncoding = genericToEncoding defaultOptions
 
 instance FromJSON IntDate
+
+
+data Export a = Export { date :: Int , type_ :: String  , data_ :: [a]} deriving (Show, Generic)
+
+instance ToJSON a => ToJSON (Export a) where
+  toEncoding = genericToEncoding defaultOptions 

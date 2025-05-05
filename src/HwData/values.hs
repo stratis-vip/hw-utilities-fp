@@ -10,7 +10,7 @@
 -- Original date: 6 Apr 2025
 module HwData.Values (allPets, allHeros, allTitans) where
 
-import Types.Assorted (ID (ID))
+import Types.Assorted (ID (..))
 import Types.Hero (Hero (..))
 import Types.Pet (Pet (..))
 import Types.Titan (Titan (..))
@@ -104,6 +104,7 @@ allHeros =
     Hero ("Lia", "Lian", ID 23),
     Hero ("Lil", "Lilith", ID 26),
     Hero ("Lut", "Luther", ID 27),
+    Hero ("Lyr", "Lyria", ID 67),
     Hero ("Mrk", "Markus", ID 21),
     Hero ("Mar", "Martha", ID 46),
     Hero ("May", "Maya", ID 36),

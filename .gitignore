@@ -26,3 +26,8 @@ Thumbs.db  # Windows Explorer cache file
 
 # Git-specific ignore
 .git/hooks/
+
+results
+/src/data
+
+tags

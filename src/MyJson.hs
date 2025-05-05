@@ -11,7 +11,7 @@ This module holds all functions about json handling
 
 Original date: 9 Apr 2025
 -}
-module MyJson (saveToJson, loadFromJson) where
+module MyJson (saveToJson, loadFromJson, saveObjectToJson ) where
 
 import Data.Aeson (FromJSON, ToJSON, decode, defaultOptions, encode, genericToEncoding, toEncoding)
 import qualified Data.ByteString.Lazy.Char8 as B
@@ -36,6 +36,7 @@ loadMembersFromJson filepath = do
  example of use:
  loadFromJson "guilds.json" :: IO (Maybe [Guild])
 -}
+
 loadFromJson :: (FromJSON a) => FilePath -> IO (Maybe [a])
 loadFromJson filepath = do
   contents <- B.readFile filepath
@@ -44,3 +45,6 @@ loadFromJson filepath = do
 -- | Save the list to filepath
 saveToJson :: (ToJSON a) => [a] -> FilePath -> IO ()
 saveToJson xs filepath = B.writeFile filepath (encode xs)
+
+saveObjectToJson :: (ToJSON a) => a -> FilePath -> IO()
+saveObjectToJson x fp = B.writeFile fp (encode x)

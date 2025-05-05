@@ -15,6 +15,7 @@ module Types.Member (Member (..)) where
 import GHC.Generics (Generic)
 import Types.Assorted (HasNameAndId (..), ID)
 
+import Data.Aeson (FromJSON, ToJSON, defaultOptions, genericToEncoding, toEncoding)
 -- | Structure to keep any member of a 'Guild' data
 data Member = Member
   { -- | unique id
@@ -29,6 +30,10 @@ data Member = Member
     maxTPower :: Int
   }
   deriving (Show, Generic)
+
+instance FromJSON Member
+instance ToJSON Member where 
+  toEncoding = genericToEncoding defaultOptions
 
 instance HasNameAndId Member where
   getName = mName
