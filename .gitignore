@@ -28,6 +28,6 @@ Thumbs.db  # Windows Explorer cache file
 .git/hooks/
 
 results
-/src/data
+/src/data/
 
 tags
